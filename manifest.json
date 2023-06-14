@@ -1,0 +1,38 @@
+{
+    "manifest_version": 3,
+    "name": "Carrot",
+    "description": "Tabs Manager",
+    "version": "0.1",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://developer.chrome.com/*"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/carrot.png",
+            "48": "images/carrot.png",
+            "128": "images/carrot.png"
+        }
+    },
+    "icons": {
+        "16":"images/carrot.png",
+        "48": "images/carrot.png",
+        "128": "images/carrot.png"
+    },
+    "background": {
+        "service_worker": "popup.js"
+    }
+
+
+
+
+
+
+
+
+}
