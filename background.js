@@ -7,12 +7,12 @@ chrome.tabs.query({active: true, currentWindow:true}, function(tabs) {
 // function that stores the session info 
 // takes  all the URLS of open tabs and store them in local storage as "session"
 chrome.tabs.query({},function(tabs) {
-    var urls = tabs.map(function(tab) {
-        return tab.url;
+    var tabsInfo = tabs.map(function(tab) {
+        return { url: tab.url, title: tab.title};
     });
 
     // saving to local storage for now
-    localStorage.setItem('session', JSON.stringify(urls));
+    localStorage.setItem('session', JSON.stringify(tabsInfo));
 });
 
 // how to retrieve session info
