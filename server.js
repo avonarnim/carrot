@@ -1,4 +1,5 @@
 // here we're setting up the server and defining routes
+require('dotenv').config();
 const express = require('express');
 const { Configuration, OpenAIApi } = require("openai");
 
@@ -10,13 +11,31 @@ const app = express();
 
 app.use(express.json()); // to parse JSON
 
-app.get('/api/organize', async (req, res) => {
-    const chatCompletion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: [{role: "user", content: "Hello world"}],
-      });
-      console.log(chatCompletion.data.choices[0].message);
-        // code to call the OpenAI API goes here
+app.post('/api/organize', async (req, res) => {
+    try {
+        // extracting tab titles from request's body
+        const { tabTitles } = req.body;
+
+        // preparing prompt for OpenAI
+        const prompt = `Please organize these website titles into relevant categories in a JSON format. ${tabTitles.join(', ')}`;
+        const chatCompletion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo-0613",
+            messages: [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ],
+        });
+        console.log(chatCompletion.data.choices[0].message);
+
+        // sends result back to the client
+        res.json(chatCompletion.data)
+    } catch(err) {
+        console.log(err);
+        console.error(err);
+        // Send an error response back to the client
+        res.status(500).json({ error: 'An error occurred while processing your request.' });
+    }
+    
 });
 
 const PORT = process.env.PORT || 5000;
@@ -27,6 +46,3 @@ app.listen(PORT, () => console.log('Server is running on port $[PORT]'));
 const axios = require('axios');
 // here we're requiring the axios package to make requests to the OpenAI API
 
-// loading variables
-require('dotenv').config();
-const apikey = process.env.open_api_key;

@@ -6,7 +6,8 @@
     "permissions": [
         "activeTab",
         "storage",
-        "tabs"
+        "tabs",
+        "http://localhost:5000/"
     ],
     "host_permissions": [
         "https://developer.chrome.com/*"
