@@ -2,10 +2,11 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { Configuration, OpenAIApi } = require("openai");
+const { Configuration, OpenAIApi } = require("helicone-openai");
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
+    heliconeApiKey: "sk-wpbuoki-aswumbq-qbbqzwa-ubqchla",
   });
 const openai = new OpenAIApi(configuration);
 const app = express();
@@ -18,9 +19,9 @@ app.post('/api/organize', async (req, res) => {
         const { tabTitles } = req.body;
 
         // preparing prompt for OpenAI
-        const prompt = `Please organize these website tab titles into at most five relevant categories(titled by a relevant word) in a JSON format. ${tabTitles.join(', ')}`;
+        const prompt = `Please organize these website tab titles into relevant categories in a JSON format. ${tabTitles.join(', ')}`;
         const chatCompletion = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo-0613",
+            model: "gpt-3.5-turbo-16k",
             messages: [
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
