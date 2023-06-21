@@ -1,6 +1,7 @@
 // here we're setting up the server and defining routes
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
@@ -8,7 +9,7 @@ const configuration = new Configuration({
   });
 const openai = new OpenAIApi(configuration);
 const app = express();
-
+app.use(cors());
 app.use(express.json()); // to parse JSON
 
 app.post('/api/organize', async (req, res) => {
@@ -17,7 +18,7 @@ app.post('/api/organize', async (req, res) => {
         const { tabTitles } = req.body;
 
         // preparing prompt for OpenAI
-        const prompt = `Please organize these website titles into relevant categories in a JSON format. ${tabTitles.join(', ')}`;
+        const prompt = `Please organize these website tab titles into at most five relevant categories(titled by a relevant word) in a JSON format. ${tabTitles.join(', ')}`;
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo-0613",
             messages: [
