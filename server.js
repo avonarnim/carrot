@@ -14,10 +14,11 @@ app.use(cors());
 app.use(express.json()); // to parse JSON
 
 app.post('/api/organize', async (req, res) => {
+    console.log(req.body); 
     try {
         // extracting tab titles from request's body
-        const { tabTitles } = req.body;
-
+        const { tabsData } = req.body;
+        const tabTitles = tabsData.map(tab => tab.title);
         // preparing prompt for OpenAI
         const prompt = `Please organize these website tab titles into relevant categories in a JSON format. ${tabTitles.join(', ')}`;
         const chatCompletion = await openai.createChatCompletion({
