@@ -7,7 +7,7 @@ document.getElementById('organizeButton').addEventListener('click', function() {
 
     chrome.tabs.query({}, function(tabs) {
         document.getElementById('spinner').style.display = 'block';
-        var tabsData = tabs.map(tab => ({title: tab.title, url: tab.url}));
+        var tabsData = tabs.map(tab => ({title: tab.title, url: tab.url, favIconUrl: tab.favIconUrl}));
         var tabTitles = tabsData.map(tab => tab.title); // send only the titles to the server
         
         // making request to the server here
@@ -51,10 +51,10 @@ function displayData(data, tabsData) {
 
         let resultElement = document.getElementById('result');
 
-        // creating a mapping from titles to URLs
-        let titleUrlMap = {};
+        // creating a mapping from titles to URLs and favIcons
+        let titleMap = {};
         tabsData.forEach(tab => {
-            titleUrlMap[tab.title] = tab.url;
+            titleMap[tab.title] = {url: tab.url, favIconUrl: tab.favIconUrl};
         });
 
         // iterate through categories
@@ -70,31 +70,44 @@ function displayData(data, tabsData) {
                 let itemElement = document.createElement('li');
             
                 // Check if the item's title has a corresponding URL in the map
-                if (titleUrlMap[item]) {
+                if (titleMap[item]) {
                     let link = document.createElement('a');
-                    link.href = titleUrlMap[item]; // use the map to get the URL
+                    link.href = titleMap[item].url; // use the map to get the URL
                     link.textContent = item;
                     
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
-                        chrome.tabs.query({url: titleUrlMap[item]}, function(tabs) {
+                        chrome.tabs.query({url: titleMap[item].url}, function(tabs) {
                             if (tabs.length) {
                                 chrome.tabs.update(tabs[0].id, {active: true});
                             } else {
-                                chrome.tabs.create({url: titleUrlMap[item]});
+                                chrome.tabs.create({url: titleMap[item].url});
                             }
                         });
                     });
 
-                    itemElement.appendChild(link);
+                    // creating favicon image
+                    let favIcon = document.createElement('img');
+                    favIcon.src = titleMap[item].favIconUrl;
+                    favIcon.className = 'favicon';
+                    favIcon.style.width = '16px';
+                    favIcon.style.height = '16px';
+
+                    let linkWrapper = document.createElement('div');
+                    linkWrapper.className = 'link-wrapper';
+                    linkWrapper.appendChild(favIcon);  // add the favicon to the wrapper
+                    linkWrapper.appendChild(link);  // add the link to the wrapper
+            
+                    itemElement.appendChild(linkWrapper);
 
                     // creating delete button
                     let deleteButton = document.createElement('button');
                     deleteButton.textContent = 'x';
+                    deleteButton.className = 'delete-btn';
                     deleteButton.dataset.index = tabsData.findIndex(tab => tab.title === item); // store the index
                     deleteButton.addEventListener('click', function(e) {
                         e.preventDefault();
-                        chrome.tabs.query({url: titleUrlMap[item]}, function(tabs) {
+                        chrome.tabs.query({url: titleMap[item].url}, function(tabs) {
                             if (tabs.length) {
                                 chrome.tabs.remove(tabs[0].id);
                             }
@@ -134,7 +147,7 @@ function displayData(data, tabsData) {
                         }
                     });
 
-itemElement.appendChild(deleteButton); // add the delete button to the item
+                itemElement.appendChild(deleteButton); // add the delete button to the item
                 } else {
                     itemElement.textContent = item;
                 }
@@ -155,5 +168,6 @@ chrome.storage.local.get(['tabs', 'data'], function(result) {
     if (result.tabs && result.data) {
         displayData(result.data, result.tabs);
     }
+
 });
 

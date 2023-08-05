@@ -2,11 +2,9 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { Configuration, OpenAIApi } = require("helicone-openai");
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
-    heliconeApiKey: "sk-wpbuoki-aswumbq-qbbqzwa-ubqchla",
   });
 const openai = new OpenAIApi(configuration);
 const app = express();
