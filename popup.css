@@ -1,67 +1,114 @@
 body {
-    width: 400px;
-    height: 600px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  margin-top: 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 400px;
+  height: 600px;
+  background-color: #f5f5f5;
 }
+
 #organizeButton {
-    color: #fff; /* change the color of the text */
-    background-color: #4CAF50; /* change the color of the button */
-    border: none; /* remove the default border */
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s; /* add transition effect for the hover */
-    cursor: pointer;
-    border-radius: 12px; /* make the corners round */
-    margin-bottom: 20px; /* add space below the button */
+  color: #fff;
+  background-color: #4caf50;
+  border: none;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 #organizeButton:hover {
-    background-color: #45a049; /* change the color of the button when hovered */
-    color: white;
+  background-color: #45a049;
+  color: white;
 }
+
+.center-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 999;
+}
+
 .spinner {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
-    border-radius: 50%; /* Circular shape */
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+  margin-top: 240px;
+  margin-left: 135px;
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 ul {
-    list-style-type: none;
-    padding: 5px;
+  list-style-type: none;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 400;
 }
 .favicon {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .link-wrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin-right: 5px;
 }
 li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
 }
 .delete-btn {
-    width: 20px;  /* adjust as needed */
-    height: 20px;  /* adjust as needed */
-    margin-left: auto;  /* push button to the end of the container */
-    background-color: #f44336;  /* red color, adjust as needed */
-    border: none;
-    color: white;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    cursor: pointer;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  background-color: #f44336;
+  border: none;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#result div {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+#result div a {
+  font-size: 12px;
+  font-weight: 400;
 }
